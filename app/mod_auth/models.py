@@ -5,7 +5,7 @@ from sqlalchemy import Column, Integer, String, Boolean, Text, DateTime
 
 
 class User(Base):
-    __tablename__ = "users"
+    __tablename__ = "user"
     id = Column(Integer, primary_key=True)
     email = Column(String(100), unique=True, nullable=False)
     name = Column(String(100), nullable=True)
@@ -29,9 +29,3 @@ class User(Base):
     def is_anonymous(self):
         """False, as anonymous users aren't supported."""
         return False
-#
-# class Item(Base):
-#     pass
-
-# class Category(Base):
-#     pass
