@@ -41,3 +41,24 @@ def get_item(category_name, item_name):
         return "Error, no item found", 404
 
     return render_template('item_view.html.j2', item=item)
+
+
+@mod_catalog.route('/items/new', methods=['GET', 'POST'])
+@login_required
+def new_item():
+    if request.method == 'GET':
+        categories = db_session.query(Category).all()
+        return render_template('new_item.html.j2', categories=categories)
+
+    if request.method == 'POST':
+        title = request.form['title']
+        description = request.form['description']
+        category_id = request.form['category_id']
+
+        item = Item(title=title, description=description,
+                    category_id=category_id, creator_id=current_user.id)
+        db_session.add(item)
+        db_session.commit()
+        return redirect(url_for('catalog.get_item',
+                                category_name=item.category.name,
+                                item_name=item.title))

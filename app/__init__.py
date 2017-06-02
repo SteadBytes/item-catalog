@@ -40,7 +40,7 @@ app.register_blueprint(catalog_module)
 @app.route('/catalog')
 @login_required
 def index():
-    return redirect(url_for(catalog.home))
+    return redirect(url_for('catalog.home'))
 
 
 Base.metadata.create_all(engine)

@@ -1,0 +1,28 @@
+<h1>Create Item</h1>
+
+<form action="{{url_for('catalog.new_item')}}" method="post">
+  <div>
+    <label for="titleInput">Title</label>
+    <br>
+    <input type="text" id="titleInput" name="title" value="{{title}}">
+  </div>
+  <br>
+  <div>
+    <label for="descriptionInput">Description</label>
+    <br>
+    <textarea name="description" id="descriptionInput"></textarea>
+  </div>
+  <br>
+  <div >
+    <label for="categoryInput">Category</label>
+    <br>
+    <select name='category_id' id="categoryInput">
+      <option value="" disabled selected>Select a category</option>
+      {% for i in categories %}
+      <option value="{{i.id}}">{{i.name}}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <br>
+  <button type="submit" name="button">Submit</button>
+</form>
