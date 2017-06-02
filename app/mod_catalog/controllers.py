@@ -9,3 +9,35 @@ from app.mod_auth.models import User
 from app.mod_catalog.models import Item, Category
 
 mod_catalog = Blueprint('catalog', __name__, url_prefix='/catalog')
+
+
+@mod_catalog.route('/')
+def home():
+    # Show list of categories and a list of the latest items
+
+    categories = db_session.query(Category).all()
+    top_items = db_session.query(Item).order_by(
+        Item.created_at.desc()).limit(10).all()
+    return render_template('home.html.j2', categories=categories, top_items=top_items)
+
+
+@mod_catalog.route('/<category_name>')
+@mod_catalog.route('/<category_name>/items')
+def items_by_category(category_name):
+    category = db_session.query(Category).filter_by(name=category_name).first()
+    if not category:
+        return "Error, no category found", 404
+    items = db_session.query(Item).filter_by(category_id=category.id).all()
+    return render_template("category_items.html.j2", category_name=category.name, items=items)
+
+
+@mod_catalog.route('/<category_name>/<item_name>')
+def get_item(category_name, item_name):
+    category = db_session.query(Category).filter_by(name=category_name).first()
+    if not category:
+        return "Error, no category found", 404
+    item = db_session.query(Item).filter_by(title=item_name).first()
+    if not item:
+        return "Error, no item found", 404
+
+    return render_template('item_view.html.j2', item=item)

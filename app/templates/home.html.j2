@@ -1,0 +1,18 @@
+<h1>Home</h1>
+<h2>Categories</h2>
+<ul>
+  {% for category in categories %}
+    <li>
+      {{category.name}}
+    </li>
+  {% endfor %}
+</ul>
+
+<h2>Lates Items</h2>
+<ul>
+  {% for item in top_items %}
+    <li>
+      {{item.title}} ({{item.category.name}})
+    </li>
+  {% endfor %}
+</ul>

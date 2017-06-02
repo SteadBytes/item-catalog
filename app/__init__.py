@@ -1,5 +1,5 @@
 # Import flask and template operator
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for, redirect
 
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
@@ -28,20 +28,19 @@ login_manager.login_view = "auth.login"
 login_manager.session_protection = "strong"
 
 
-@app.route('/')
-@login_required
-def index():
-    return render_template('index.html.j2')
-
-
 # Import a module / component using its blueprint handler variable (mod_auth)
 from app.mod_auth.controllers import mod_auth as auth_module
 from app.mod_catalog.controllers import mod_catalog as catalog_module
 # Register blueprint(s)
 app.register_blueprint(auth_module)
 app.register_blueprint(catalog_module)
-# Build the database:
-# This will create the database file using SQLAlchemy
-# db_session.create_all()
+
+
+@app.route('/')
+@app.route('/catalog')
+@login_required
+def index():
+    return redirect(url_for(catalog.home))
+
 
 Base.metadata.create_all(engine)
