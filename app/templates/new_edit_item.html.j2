@@ -1,5 +1,13 @@
-<h1>Create Item</h1>
-
+<h1>{{page_heading}}</h1>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 <form action="{{url_for('catalog.new_item')}}" method="post">
   <div>
     <label for="titleInput">Title</label>
