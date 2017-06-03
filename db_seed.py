@@ -1,6 +1,7 @@
 
 from flask import Flask
 from sqlalchemy import *
+from app.mod_auth.models import User
 from app.mod_catalog.models import Category, Item
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -29,6 +30,6 @@ sample_items = {'bat': 1, 'TV': 2, 'computer': 3}
 
 for name, category in sample_items.items():
     item = Item(title=name, description="Sample description",
-                category_id=category)
+                category_id=category, creator_id=1)
     session.add(item)
 session.commit()

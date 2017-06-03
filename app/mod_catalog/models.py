@@ -14,6 +14,13 @@ class Category(Base):
     creator_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
 
+    @property
+    def serialize(self):
+        return {
+            'created_at': self.created_at,
+            'name': self.name,
+        }
+
 
 class Item(Base):
     __tablename__ = "item"
@@ -25,3 +32,14 @@ class Item(Base):
     creator_id = Column(Integer, ForeignKey('user.id'))
     category = relationship(Category)
     user = relationship(User)
+
+    @property
+    def serialize(self):
+        return {
+            'created_at': self.created_at,
+            'creator_id': self.creator_id,
+            'creator': self.user.name,
+            'category': self.category.name,
+            'description': self.description,
+            'title': self.title,
+        }
