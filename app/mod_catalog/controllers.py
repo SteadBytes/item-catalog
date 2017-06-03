@@ -46,14 +46,23 @@ def get_item(category_name, item_name):
 @mod_catalog.route('/items/new', methods=['GET', 'POST'])
 @login_required
 def new_item():
+    categories = db_session.query(Category).all()
+
+    def render_page(categories, title="", description="", category_id=""):
+        print(category_id)
+        return render_template('new_item.html.j2', categories=categories,
+                               title=title, description=description,
+                               cat_id=int(category_id))
     if request.method == 'GET':
-        categories = db_session.query(Category).all()
-        return render_template('new_item.html.j2', categories=categories)
+        return render_page(categories)
 
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
         category_id = request.form['category_id']
+        if not title or not description or not category_id:
+            flash("Missing input")
+            return render_page(categories, title, description, category_id)
 
         item = Item(title=title, description=description,
                     category_id=category_id, creator_id=current_user.id)

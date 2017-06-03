@@ -10,16 +10,16 @@
   <div>
     <label for="descriptionInput">Description</label>
     <br>
-    <textarea name="description" id="descriptionInput"></textarea>
+    <textarea name="description" id="descriptionInput">{{description}}</textarea>
   </div>
   <br>
   <div >
     <label for="categoryInput">Category</label>
     <br>
     <select name='category_id' id="categoryInput">
-      <option value="" disabled selected>Select a category</option>
+      <!-- <option value="" disabled selected>Select a category</option> -->
       {% for i in categories %}
-      <option value="{{i.id}}">{{i.name}}</option>
+      <option value="{{i.id}}" {% if i.id==cat_id %} selected="selected" {% endif %}>{{i.name}}</option>
       {% endfor %}
     </select>
   </div>
