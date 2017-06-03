@@ -104,3 +104,20 @@ def edit_item(item_name):
         return redirect(url_for('catalog.get_item',
                                 category_name=item.category.name,
                                 item_name=item.title))
+
+
+@mod_catalog.route('/<item_name>/delete', methods=['GET', 'POST'])
+@login_required
+def delete_item(item_name):
+    item = db_session.query(Item).filter_by(title=item_name).first()
+    if not item:
+        return "Error, no item found", 404
+    if current_user != item.user:
+        return "You do not own this item", 403
+    if request.method == 'GET':
+        return render_template('delete_item.html.j2')
+    if request.method == 'POST':
+        db_session.delete(item)
+        db_session.commit()
+        flash("%s successfully deleted" % item_name)
+        return redirect(url_for('catalog.home'))
