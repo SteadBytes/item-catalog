@@ -16,10 +16,10 @@
   <div >
     <label for="categoryInput">Category</label>
     <br>
-    <select name='category_id' id="categoryInput">
-      <!-- <option value="" disabled selected>Select a category</option> -->
+    <select name='category_id_inp' id="categoryInput">
+      <option value="" disabled selected>Select a category</option>
       {% for i in categories %}
-      <option value="{{i.id}}" {% if i.id==cat_id %} selected="selected" {% endif %}>{{i.name}}</option>
+      <option value="{{i.id}}" {% if i.id==category_id %} selected="selected" {% endif %}>{{i.name}}</option>
       {% endfor %}
     </select>
   </div>

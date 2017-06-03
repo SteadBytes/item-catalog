@@ -48,18 +48,20 @@ def get_item(category_name, item_name):
 def new_item():
     categories = db_session.query(Category).all()
 
-    def render_page(categories, title="", description="", category_id=""):
+    def render_page(categories, title="", description="", category_id=None):
         print(category_id)
+        if category_id is not None:
+            category_id = int(category_id)
         return render_template('new_item.html.j2', categories=categories,
                                title=title, description=description,
-                               cat_id=int(category_id))
+                               category_id=category_id)
     if request.method == 'GET':
         return render_page(categories)
 
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
-        category_id = request.form['category_id']
+        category_id = request.form['category_id_inp']
         if not title or not description or not category_id:
             flash("Missing input")
             return render_page(categories, title, description, category_id)
