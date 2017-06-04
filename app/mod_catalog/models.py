@@ -21,6 +21,14 @@ class Category(Base):
             'name': self.name,
         }
 
+    @classmethod
+    def by_name(cls, category_name):
+        return db_session.query(cls).filter_by(name=category_name).first()
+
+    @classmethod
+    def by_id(cls, category_id):
+        return db_session.query(cls).filter_by(id=category_id).first()
+
 
 class Item(Base):
     __tablename__ = "item"
@@ -43,3 +51,11 @@ class Item(Base):
             'description': self.description,
             'title': self.title,
         }
+
+    @classmethod
+    def by_title(cls, item_title):
+        return db_session.query(cls).filter_by(title=item_title).first()
+
+    @classmethod
+    def by_category(cls, category):
+        return db_session.query(cls).filter_by(category_id=category.id).all()

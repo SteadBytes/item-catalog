@@ -15,7 +15,6 @@ mod_catalog = Blueprint('catalog', __name__, url_prefix='/catalog')
 @mod_catalog.route('/')
 def home():
     # Show list of categories and a list of the latest items
-
     categories = db_session.query(Category).all()
     top_items = db_session.query(Item).order_by(
         Item.created_at.desc()).limit(10).all()
@@ -25,20 +24,20 @@ def home():
 @mod_catalog.route('/<category_name>')
 @mod_catalog.route('/<category_name>/items')
 def items_by_category(category_name):
-    category = db_session.query(Category).filter_by(name=category_name).first()
+    category = Category.by_name(category_name)
     if not category:
         return "Error, no category found", 404
-    items = db_session.query(Item).filter_by(category_id=category.id).all()
+    items = Item.by_category(category)
     return render_template("category_items.html.j2", category_name=category.name, items=items)
 
 
-@mod_catalog.route('/<category_name>/<item_name>')
-def get_item(category_name, item_name):
-    category = db_session.query(Category).filter_by(name=category_name).first()
+@mod_catalog.route('/<category_name>/<item_title>')
+def get_item(category_name, item_title):
+    category = Category.by_name(category_name)
     if not category:
         return "Error, no category found", 404
     item = db_session.query(Item).filter(
-        and_(Item.title == item_name, Item.category == category)).first()
+        and_(Item.title == item_title, Item.category == category)).first()
     if not item:
         return "Error, no item found", 404
 
@@ -68,20 +67,23 @@ def new_item():
         if not title or not description or not category_id:
             flash("Missing input")
             return render_page(title, description, category_id)
-
+        category = Category.by_id(category_id)
+        if Item.by_title(title):
+            flash("Item with title \"%s\" already exists." % title)
+            return render_page(title, description, category_id)
         item = Item(title=title, description=description,
                     category_id=category_id, creator_id=current_user.id)
         db_session.add(item)
         db_session.commit()
         return redirect(url_for('catalog.get_item',
                                 category_name=item.category.name,
-                                item_name=item.title))
+                                item_title=item.title))
 
 
-@mod_catalog.route('/<item_name>/edit', methods=['GET', 'POST'])
+@mod_catalog.route('/<item_title>/edit', methods=['GET', 'POST'])
 @login_required
-def edit_item(item_name):
-    item = db_session.query(Item).filter_by(title=item_name).first()
+def edit_item(item_title):
+    item = Item.by_title(item_title)
     if not item:
         return "Error, no item found", 404
     if current_user != item.user:
@@ -103,13 +105,13 @@ def edit_item(item_name):
         db_session.commit()
         return redirect(url_for('catalog.get_item',
                                 category_name=item.category.name,
-                                item_name=item.title))
+                                item_title=item.title))
 
 
-@mod_catalog.route('/<item_name>/delete', methods=['GET', 'POST'])
+@mod_catalog.route('/<item_title>/delete', methods=['GET', 'POST'])
 @login_required
-def delete_item(item_name):
-    item = db_session.query(Item).filter_by(title=item_name).first()
+def delete_item(item_title):
+    item = Item.by_title(item_title)
     if not item:
         return "Error, no item found", 404
     if current_user != item.user:
@@ -119,5 +121,5 @@ def delete_item(item_name):
     if request.method == 'POST':
         db_session.delete(item)
         db_session.commit()
-        flash("%s successfully deleted" % item_name)
+        flash("%s successfully deleted" % item_title)
         return redirect(url_for('catalog.home'))

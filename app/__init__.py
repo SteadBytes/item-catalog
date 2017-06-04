@@ -40,7 +40,6 @@ app.register_blueprint(api_module)
 
 @app.route('/')
 @app.route('/catalog')
-@login_required
 def index():
     return redirect(url_for('catalog.home'))
 
