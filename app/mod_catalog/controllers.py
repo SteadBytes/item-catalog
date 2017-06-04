@@ -1,27 +1,16 @@
-# Import flask dependencies
 from flask import Blueprint, request, render_template, \
     flash, g, session, redirect, url_for, abort
 from sqlalchemy import and_
 from app import app
 from app import db_session
 from app import login_manager
-from flask_login import login_required, login_user, logout_user, current_user
+from flask_login import login_required, current_user
 from app.mod_auth.models import User
 from app.mod_catalog.models import Item, Category
+from app.mod_catalog.helpers import render_new_item_page, check_item_creator
 
-from functools import wraps
+
 mod_catalog = Blueprint('catalog', __name__, url_prefix='/catalog')
-
-
-def render_new_item_page(title="", description="", category_id=None):
-    categories = db_session.query(Category).all()
-    # category_id used when editing not creating new item
-    if category_id is not None:
-        category_id = int(category_id)
-    return render_template('new_edit_item.html.j2', page_heading='Create Item',
-                           categories=categories,
-                           title=title, description=description,
-                           category_id=category_id)
 
 
 @mod_catalog.route('/')
@@ -90,10 +79,7 @@ def new_item():
 @login_required
 def edit_item(item_title):
     item = Item.by_title(item_title)
-    if not item:
-        return "Error, no item found", 404
-    if current_user != item.user:
-        return "You do not own this item", 403
+    check_item_creator(item)
 
     if request.method == 'GET':
         return render_new_item_page(item.title, item.description, item.category_id)
@@ -112,22 +98,6 @@ def edit_item(item_title):
         return redirect(url_for('catalog.get_item',
                                 category_name=item.category.name,
                                 item_title=item.title))
-
-
-def item_exists(func):
-    @wraps(func)
-    def wrapper(item, *args, **kwargs):
-        if not item:
-            abort(404)
-        else:
-            return func(item, *args, **kwargs)
-    return wrapper
-
-
-@item_exists
-def check_item_creator(item):
-    if current_user != item.user:
-        abort(403)
 
 
 @mod_catalog.route('/<item_title>/delete', methods=['GET', 'POST'])

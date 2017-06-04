@@ -1,10 +1,8 @@
-# Import flask dependencies
 from flask import Blueprint, request, render_template, \
     flash, g, session, redirect, url_for
+from app import db_session
 from app import app
 import json
-# Import the database object from the main app module
-from app import db_session
 from requests_oauthlib import OAuth2Session
 from requests.exceptions import HTTPError
 from flask_login import login_required, login_user, logout_user, current_user
