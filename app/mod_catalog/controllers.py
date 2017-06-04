@@ -1,6 +1,6 @@
 # Import flask dependencies
 from flask import Blueprint, request, render_template, \
-    flash, g, session, redirect, url_for
+    flash, g, session, redirect, url_for, abort
 from sqlalchemy import and_
 from app import app
 from app import db_session
@@ -9,7 +9,19 @@ from flask_login import login_required, login_user, logout_user, current_user
 from app.mod_auth.models import User
 from app.mod_catalog.models import Item, Category
 
+from functools import wraps
 mod_catalog = Blueprint('catalog', __name__, url_prefix='/catalog')
+
+
+def render_new_item_page(title="", description="", category_id=None):
+    categories = db_session.query(Category).all()
+    # category_id used when editing not creating new item
+    if category_id is not None:
+        category_id = int(category_id)
+    return render_template('new_edit_item.html.j2', page_heading='Create Item',
+                           categories=categories,
+                           title=title, description=description,
+                           category_id=category_id)
 
 
 @mod_catalog.route('/')
@@ -44,33 +56,27 @@ def get_item(category_name, item_title):
     return render_template('item_view.html.j2', item=item)
 
 
-def render_page(title="", description="", category_id=None):
-    categories = db_session.query(Category).all()
-    if category_id is not None:
-        category_id = int(category_id)
-    return render_template('new_edit_item.html.j2', page_heading='Create Item',
-                           categories=categories,
-                           title=title, description=description,
-                           category_id=category_id)
-
-
 @mod_catalog.route('/items/new', methods=['GET', 'POST'])
 @login_required
 def new_item():
     if request.method == 'GET':
-        return render_page()
+        return render_new_item_page()
 
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
         category_id = request.form['category_id_inp']
+
         if not title or not description or not category_id:
             flash("Missing input")
-            return render_page(title, description, category_id)
+            return render_new_item_page(title, description, category_id)
+
         category = Category.by_id(category_id)
+
         if Item.by_title(title):
             flash("Item with title \"%s\" already exists." % title)
-            return render_page(title, description, category_id)
+            return render_new_item_page(title, description, category_id)
+
         item = Item(title=title, description=description,
                     category_id=category_id, creator_id=current_user.id)
         db_session.add(item)
@@ -90,14 +96,14 @@ def edit_item(item_title):
         return "You do not own this item", 403
 
     if request.method == 'GET':
-        return render_page(item.title, item.description, item.category_id)
+        return render_new_item_page(item.title, item.description, item.category_id)
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
         category_id = request.form['category_id_inp']
         if not title or not description or not category_id:
             flash("Missing input")
-            return render_page(title, description, category_id)
+            return render_new_item_page(title, description, category_id)
         item.title = title
         item.description = description
         itme.category_id = category_id
@@ -108,14 +114,27 @@ def edit_item(item_title):
                                 item_title=item.title))
 
 
+def item_exists(func):
+    @wraps(func)
+    def wrapper(item, *args, **kwargs):
+        if not item:
+            abort(404)
+        else:
+            return func(item, *args, **kwargs)
+    return wrapper
+
+
+@item_exists
+def check_item_creator(item):
+    if current_user != item.user:
+        abort(403)
+
+
 @mod_catalog.route('/<item_title>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_item(item_title):
     item = Item.by_title(item_title)
-    if not item:
-        return "Error, no item found", 404
-    if current_user != item.user:
-        return "You do not own this item", 403
+    check_item_creator(item)
     if request.method == 'GET':
         return render_template('delete_item.html.j2')
     if request.method == 'POST':
