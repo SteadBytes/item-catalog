@@ -13,11 +13,13 @@
   </head>
   <body>
 
-    {% include "partials/header.html.j2" %}
-
-
-    {% block content %}
-    {% endblock %}
+      {%include "partials/categories_offcanvas.html.j2"%}
+      <div class="off-canvas-content">
+        {% include "partials/header.html.j2" %}
+        <br>
+        {% block content %}
+        {% endblock %}
+      </div>
 
     <!-- Foundation/Jquery JS -->
     <script src="{{url_for('static', filename='js/vendor/jquery.js')}}"></script>

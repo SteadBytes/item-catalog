@@ -1,9 +1,6 @@
 {% extends "base.html.j2" %}
 {% block content %}
-  <h1>Home</h1>
-
-
-  {% with messages = get_flashed_messages() %}
+  <!-- {% with messages = get_flashed_messages() %}
     {% if messages %}
       <ul class=flashes>
       {% for message in messages %}
@@ -11,22 +8,29 @@
       {% endfor %}
       </ul>
     {% endif %}
-  {% endwith %}
-  <h2>Categories</h2>
-  <ul>
-    {% for category in categories %}
-      <li>
-        {{category.name}}
-      </li>
-    {% endfor %}
-  </ul>
+  {% endwith %} -->
 
-  <h2>Lates Items</h2>
-  <ul>
-    {% for item in top_items %}
-      <li>
-        {{item.title}} ({{item.category.name}})
-      </li>
-    {% endfor %}
-  </ul>
+  <div class="row">
+    <div class="small-2 medium-4 columns category-list">
+      {%include 'category_list.html.j2'%}
+    </div>
+    <div class="small-8 medium-8 columns">
+      <div class="latest-items">
+        <h2>Latest Items</h2>
+        <ul class="no-bullet ">
+          {% for item in top_items %}
+            <li>
+              <a href="{{url_for('catalog.get_item', category_name=item.category.name, item_title=item.title)}}">
+                {{item.title}}
+              </a>
+              <a class="subheader" href="{{url_for('catalog.items_by_category',category_name=item.category.name)}}">
+              ({{item.category.name}})
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}

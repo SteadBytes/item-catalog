@@ -1,21 +1,19 @@
 <header>
-  <div class="top-bar foundation-5-top-bar">
-    <div class="top-bar-title">
-      <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
-        <button class="menu-icon" type="button" data-toggle></button>
-      </span>
+  <div class="title-bar">
+    <div class="title-bar-left">
+      <button class="menu-icon category-toggler" type="button" data-open="categories-offcanvas"></button>
       <strong><a href="{{url_for('catalog.home')}}">Catalog App</a></strong>
     </div>
-    <div class="top-bar-right">
-      <ul class="menu">
+    <div class="title-bar-right">
+      <span>
         {% if current_user.is_authenticated %}
-          <li><a href="{{url_for('auth.logout')}}" class="button">Logout</a></li>
+          <a href="{{url_for('auth.logout')}}" class="button">Logout</a>
         {% else %}
-          <li><a href="{{url_for('auth.login')}}" class="button">Login</a></li>
+          <a href="{{url_for('auth.login')}}" class="button">Login</a>
         {% endif %}
+      </span>
         <!-- <li><input type="search" placeholder="Search"></li>
         <li><button type="button" class="button">Search</button></li> -->
-      </ul>
     </div>
   </div>
 </header>
