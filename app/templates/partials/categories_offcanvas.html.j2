@@ -6,7 +6,7 @@
     <li>Categories</li>
     {%for category in categories%}
       <li>
-        <a href="url_for('catalog.items_by_category', category_name=category.name)">
+        <a href="{{url_for('catalog.items_by_category', category_name=category.name)}}">
           {{category.name}}
         </a>
       </li>

@@ -17,6 +17,19 @@
       <div class="off-canvas-content">
         {% include "partials/header.html.j2" %}
         <br>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+          <div class="row">
+            <div class="columns">
+              {% for message in messages %}
+              <div class="callout success">
+                {{ message }}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        {% endwith %}
         {% block content %}
         {% endblock %}
       </div>
