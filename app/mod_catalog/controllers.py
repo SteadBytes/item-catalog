@@ -16,10 +16,9 @@ mod_catalog = Blueprint('catalog', __name__, url_prefix='/catalog')
 @mod_catalog.route('/')
 def home():
     # Show list of categories and a list of the latest items
-    categories = db_session.query(Category).all()
     top_items = db_session.query(Item).order_by(
         Item.created_at.desc()).limit(10).all()
-    return render_template('home.html.j2', categories=categories, top_items=top_items)
+    return render_template('home.html.j2', top_items=top_items)
 
 
 @mod_catalog.route('/<category_name>')

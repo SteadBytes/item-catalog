@@ -44,4 +44,13 @@ def index():
     return redirect(url_for('catalog.home'))
 
 
+from app.mod_catalog.models import Category
+
+
+@app.context_processor
+def inject_categories():
+    categories = db_session.query(Category).all()
+    return dict(categories=categories)
+
+
 Base.metadata.create_all(engine)

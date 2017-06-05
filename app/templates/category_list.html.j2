@@ -1,11 +1,11 @@
 
-<h2>Categories</h2>
-<ul class="no-bullet">
-  {%for category in categories%}
-    <li>
-      <a href="url_for('catalog.items_by_category', category_name=category.name)">
-        {{category.name}}
-      </a>
-    </li>
-  {%endfor%}
-</ul>
+  <h2>Categories</h2>
+  <ul class="no-bullet">
+    {%for category in categories%}
+      <li>
+        <a href="url_for('catalog.items_by_category', category_name=category.name)">
+          {{category.name}}
+        </a>
+      </li>
+    {%endfor%}
+  </ul>
