@@ -1,5 +1,7 @@
-<h1>{{page_heading}}</h1>
-{% with messages = get_flashed_messages() %}
+{% extends "base.html.j2" %}
+{% block content %}
+
+<!-- {% with messages = get_flashed_messages() %}
   {% if messages %}
     <ul class=flashes>
     {% for message in messages %}
@@ -7,30 +9,38 @@
     {% endfor %}
     </ul>
   {% endif %}
-{% endwith %}
-<form action="{{url_for('catalog.new_item')}}" method="post">
-  <div>
-    <label for="titleInput">Title</label>
-    <br>
-    <input type="text" id="titleInput" name="title" value="{{title}}">
+{% endwith %} -->
+<div class="row">
+  <div class="small-2 medium-4 columns category-list">
+    {%include 'category_list.html.j2'%}
   </div>
-  <br>
-  <div>
-    <label for="descriptionInput">Description</label>
-    <br>
-    <textarea name="description" id="descriptionInput">{{description}}</textarea>
+  <div class="columns">
+    <h1>{{page_heading}}</h1>
+    <form class="form-create-item"action="{{url_for('catalog.new_item')}}" method="post">
+      <div class="row">
+        <div class="medium-6 small-12 columns">
+          <label for="titleInput">Title</label>
+          <input type="text" id="titleInput" name="title" value="{{title}}">
+        </div>
+        <div class= "medium-6 small-12 columns">
+          <label for="categoryInput">Category</label>
+          <select name='category_id_inp' id="categoryInput">
+            <option value="" disabled selected>Select a category</option>
+            {% for i in categories %}
+            <option value="{{i.id}}" {% if i.id==category_id %} selected="selected" {% endif %}>{{i.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="row columns">
+        <label for="descriptionInput">Description</label>
+        <textarea name="description" id="descriptionInput">{{description}}</textarea>
+      </div>
+      <div class="button-container text-center">
+        <button class="button primary" type="submit" name="button">Submit</button>
+      </div>
+    </form>
   </div>
-  <br>
-  <div >
-    <label for="categoryInput">Category</label>
-    <br>
-    <select name='category_id_inp' id="categoryInput">
-      <option value="" disabled selected>Select a category</option>
-      {% for i in categories %}
-      <option value="{{i.id}}" {% if i.id==category_id %} selected="selected" {% endif %}>{{i.name}}</option>
-      {% endfor %}
-    </select>
-  </div>
-  <br>
-  <button type="submit" name="button">Submit</button>
-</form>
+</div>
+
+{% endblock %}

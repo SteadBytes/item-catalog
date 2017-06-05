@@ -20,6 +20,16 @@
     border-right: 1px solid;
 }
 
+.form-create-item {
+    max-width: 300px;
+    margin: auto;
+}
+
+.form-create-item button {
+    width: 100%;
+    max-width: 300px;
+}
+
 
 /*Medium and up*/
 
@@ -29,6 +39,9 @@
     }
     .category-list {
         display: block;
+    }
+    .form-create-item {
+        max-width: none;
     }
 }
 
