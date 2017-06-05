@@ -1,0 +1,16 @@
+.foundation-5-top-bar {
+    background: #333;
+    color: #fefefe;
+}
+
+.foundation-5-top-bar .menu {
+    background: #333;
+}
+
+.foundation-5-top-bar .menu a {
+    color: #fefefe;
+}
+
+.top-bar-title a {
+    color: inherit;
+}

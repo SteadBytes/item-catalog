@@ -5,13 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome CDN -->
     <script src="https://use.fontawesome.com/488e44b3c7.js"></script>
-    <!-- Bootstrap CDN -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <!-- Foundation Styles -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/foundation.min.css')}}">
     <!-- Custom styles -->
-  <link rel="stylesheet" href="{{url_for('static',filename='main.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/app.css')}}">
     <title>Catalog App</title>
   </head>
   <body>
 
+    {% include "partials/header.html.j2" %}
+
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- Foundation/Jquery JS -->
+    <script src="{{url_for('static', filename='js/vendor/jquery.js')}}"></script>
+    <script src="{{url_for('static', filename='js/vendor/what-input.js')}}"></script>
+    <script src="{{url_for('static', filename='js/vendor/foundation.min.js')}}"></script>
+    <script>
+      $(document).foundation();
+   </script>
   </body>
 </html>

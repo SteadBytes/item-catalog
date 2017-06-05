@@ -39,7 +39,7 @@ def get_google_auth(state=None, token=None):
 @mod_auth.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('catalog.home'))
     google = get_google_auth()
     auth_url, state = google.authorization_url(
         AUTH_URI, access_type='offline')
@@ -51,7 +51,7 @@ def login():
 def callback():
     # Redirect to homepage if logged in
     if current_user is not None and current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('catalog.home'))
     if 'error' in request.args:
         if request.args.get('error') == 'access_denied':
             return "Access denied"
@@ -83,7 +83,7 @@ def callback():
             db_session.add(user)
             db_session.commit()
             login_user(user)
-            return redirect(url_for('index'))
+            return redirect(url_for('catalog.home'))
         return 'Couldnt fetch user information'
 
 
@@ -91,4 +91,4 @@ def callback():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('catalog.home'))
