@@ -105,7 +105,7 @@ def delete_item(item_title):
     item = Item.by_title(item_title)
     check_item_creator(item)
     if request.method == 'GET':
-        return render_template('delete_item.html.j2')
+        return render_template('delete_item.html.j2', item=item)
     if request.method == 'POST':
         db_session.delete(item)
         db_session.commit()

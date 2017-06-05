@@ -1,5 +1,27 @@
-<h1>Delete Item</h1>
-<p>Are you sure you want to delete?</p>
-<form action="" method="post">
-  <input type="submit" value="Delete">
-</form>
+{% extends "base.html.j2" %}
+
+{% block content %}
+<div class="row">
+  <div class="small-2 medium-4 columns category-list">
+    {%include 'category_list.html.j2'%}
+  </div>
+  <div class="columns">
+    <h1>Delete Item</h1>
+    <p>
+      Are you sure you want to delete <strong>{{item.title}}</strong>
+      from the catalog?
+    </p>
+    <form action="" method="post">
+      <input class= "button alert" type="submit" value="Delete">
+      <a href="{{url_for('catalog.get_item', category_name=item.category.name, item_title=item.title)}}" class="button primary">
+        Cancel
+      </a>
+    </form>
+
+  </div>
+
+</div>
+
+
+
+{% endblock %}
