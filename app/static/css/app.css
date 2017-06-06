@@ -43,6 +43,9 @@
     .form-create-item {
         max-width: none;
     }
+    .signin {
+        text-align: inherit;
+    }
 }
 
 
