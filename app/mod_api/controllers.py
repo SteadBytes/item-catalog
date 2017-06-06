@@ -33,7 +33,7 @@ def get_items():
 
 @mod_api.route('/catalog')
 def get_catalog():
-    """Returns list of all items and their information, broken down by category.
+    """Returns list of all items and their information,broken down by category.
     """
     categories = db_session.query(Category).all()
     result = {}

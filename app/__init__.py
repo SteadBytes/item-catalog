@@ -22,7 +22,9 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 db_session = DBSession()
 
-from flask_login import LoginManager, login_required, login_user, logout_user, current_user
+from flask_login import (LoginManager, login_required, login_user,
+                         logout_user, current_user
+                         )
 login_manager = LoginManager(app)
 login_manager.login_view = "auth.login"
 login_manager.session_protection = "strong"

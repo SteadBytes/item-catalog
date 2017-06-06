@@ -34,7 +34,8 @@ def items_by_category(category_name):
     if not category:
         return "Error, no category found", 404
     items = Item.by_category(category)
-    return render_template("category_items.html.j2", category_name=category.name, items=items)
+    return render_template("category_items.html.j2",
+                            category_name=category.name, items=items)
 
 
 @mod_catalog.route('/<category_name>/<item_title>')
@@ -110,7 +111,8 @@ def edit_item(item_title):
     check_item_creator(item) # 403 error if current user != item creator
 
     if request.method == 'GET':
-        return render_new_item_page(item.title, item.description, item.category_id)
+        return render_new_item_page(item.title, item.description,
+                                    item.category_id)
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']

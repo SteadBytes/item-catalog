@@ -27,5 +27,5 @@ class User(Base):
         return self.authenticated
 
     def is_anonymous(self):
-        """False, anonymous users aren't supported, required for Flask-Login."""
+        """False,anonymous users aren't supported, required for Flask-Login."""
         return False

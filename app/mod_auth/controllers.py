@@ -34,7 +34,7 @@ def get_google_auth(state=None, token=None):
 
     With no params provided, generates new OAuth2Session with a new state.
     If state is provided, gets a token.
-    If token provided, gets an OAuth access token with correct scope ->final step
+    If token provided,gets an OAuth access token with correct scope->final step
     """
     if token:
         return OAuth2Session(CLIENT_ID, token=token)
@@ -82,7 +82,9 @@ def callback():
         try:
             # Get access token from google
             token = google.fetch_token(
-                app.config['TOKEN_URI'], client_secret=app.config['CLIENT_SECRET'], authorization_response=request.url)
+                app.config['TOKEN_URI'],
+                client_secret=app.config['CLIENT_SECRET'],
+                authorization_response=request.url)
         except HTTPError:
             return 'HTTPError occured'
         google = get_google_auth(token=token)
