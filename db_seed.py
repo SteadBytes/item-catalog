@@ -16,12 +16,12 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-Clear the tables
+# Clear the tables
 session.query(Category).delete()
 session.query(Item).delete()
 
 # Add categories
-sample_categories = ['sports', 'entertainment', 'tech']
+sample_categories = ['Sports', 'Entertainment', 'Tech']
 
 for category_name in sample_categories:
     category = Category(name=category_name)
@@ -29,7 +29,7 @@ for category_name in sample_categories:
 session.commit()
 
 # Add items
-sample_items = {'bat': 1, 'TV': 2, 'computer': 3}
+sample_items = {'Bat': 1, 'TV': 2, 'Computer': 3}
 
 for name, category in sample_items.items():
     item = Item(title=name, description="Sample description",
@@ -37,7 +37,5 @@ for name, category in sample_items.items():
     session.add(item)
 session.commit()
 
-item = Item(title="test", description="Delte test",
-            category_id=2, creator_id=2)
 session.add(item)
 session.commit()
