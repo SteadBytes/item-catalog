@@ -23,10 +23,20 @@ class Category(Base):
 
     @classmethod
     def by_name(cls, category_name):
+        """Returns category given a category name
+
+        Args:
+            category_name: String, name of category to retrieve.
+        """
         return db_session.query(cls).filter_by(name=category_name).first()
 
     @classmethod
     def by_id(cls, category_id):
+        """Returns category given a category id
+
+        Args:
+            category_id: Integer, primary key id of required category.
+        """
         return db_session.query(cls).filter_by(id=category_id).first()
 
 
@@ -54,8 +64,18 @@ class Item(Base):
 
     @classmethod
     def by_title(cls, item_title):
+        """Returns item given a title
+
+        Args:
+            item_title: String, title of item to retrieve.
+        """
         return db_session.query(cls).filter_by(title=item_title).first()
 
     @classmethod
     def by_category(cls, category):
+        """Returns all items for a given category
+
+        Args:
+            category: Category Object to filter items by
+        """
         return db_session.query(cls).filter_by(category_id=category.id).all()

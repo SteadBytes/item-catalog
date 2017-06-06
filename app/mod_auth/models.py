@@ -23,9 +23,9 @@ class User(Base):
         return self.email
 
     def is_authenticated(self):
-        """Return True if the user is authenticated."""
+        """Return True if the user is authenticated (i.e when logged in)."""
         return self.authenticated
 
     def is_anonymous(self):
-        """False, as anonymous users aren't supported."""
+        """False, anonymous users aren't supported, required for Flask-Login."""
         return False

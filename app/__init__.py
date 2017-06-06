@@ -33,9 +33,9 @@ from app.mod_auth.controllers import mod_auth as auth_module
 from app.mod_catalog.controllers import mod_catalog as catalog_module
 from app.mod_api.controllers import mod_api as api_module
 # Register blueprint(s)
-app.register_blueprint(auth_module)
-app.register_blueprint(catalog_module)
-app.register_blueprint(api_module)
+app.register_blueprint(auth_module)  # authentication ->google login
+app.register_blueprint(catalog_module)  # main catalog
+app.register_blueprint(api_module)  # JSON API endpoint
 
 
 @app.route('/')
@@ -44,11 +44,15 @@ def index():
     return redirect(url_for('catalog.home'))
 
 
+# Import Category model for inject_categories context processor below
 from app.mod_catalog.models import Category
 
 
 @app.context_processor
 def inject_categories():
+    """Flask/Jinja2 template context processor to inject all current
+        categories into all templates
+    """
     categories = db_session.query(Category).all()
     return dict(categories=categories)
 
