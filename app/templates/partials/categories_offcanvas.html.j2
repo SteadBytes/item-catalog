@@ -2,14 +2,20 @@
   <button class="close-button" aria-label="Close menu" type="button" data-close>
     <span aria-hidden="true">&times;</span>
   </button>
-  <ul class="vertical menu">
-    <li>Categories</li>
-    {%for category in categories%}
-      <li>
-        <a href="{{url_for('catalog.items_by_category', category_name=category.name)}}">
-          {{category.name}}
-        </a>
-      </li>
-    {%endfor%}
-  </ul>
+<div class="row">
+  <div class="columns">
+    <nav class="nav-bar" role="navigation">
+      <h1>Categories</h1>
+      <ul class="vertical menu">
+        {%for category in categories%}
+          <li>
+            <a href="{{url_for('catalog.items_by_category', category_name=category.name)}}">
+              {{category.name}}
+            </a>
+          </li>
+        {%endfor%}
+      </ul>
+    </nav>
+  </div>
+  </div>
 </div>

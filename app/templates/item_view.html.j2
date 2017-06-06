@@ -7,9 +7,15 @@
     <div class="columns">
       <h1>{{item.title}}</h1>
       <hr>
-
       <p><strong>Description: </strong>{{item.description}}</p>
     </div>
   </div>
-
+  <div class="row">
+    <div class="columns">
+      {% if current_user.is_authenticated and item.user == current_user%}
+        <a class="button primary" href="{{url_for('catalog.edit_item', item_title=item.title)}}">Edit</a>
+        <a class="button alert"  href="{{url_for('catalog.delete_item', item_title=item.title)}}">Delete</a>
+      {% endif %}
+    </div>
+  </div>
 {% endblock %}

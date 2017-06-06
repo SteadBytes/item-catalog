@@ -1,4 +1,4 @@
-.title-bar {
+.title-bar, .off-canvas {
     background: #333;
     color: #fefefe;
 }
@@ -28,6 +28,24 @@
 .form-create-item button {
     width: 100%;
     max-width: 300px;
+}
+
+.off-canvas>.close-button, .off-canvas a {
+    color: #fefefe;
+    transition: 0.3s ease;
+}
+
+.off-canvas a:hover {
+    -webkit-transform: scale(1.2);
+    transform-origin: left center;
+}
+
+.off-canvas a:hover:after {
+    width: 0%;
+}
+
+.nav-bar {
+    padding-top: 0.5rem;
 }
 
 
