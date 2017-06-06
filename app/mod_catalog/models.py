@@ -2,7 +2,7 @@ from app import db_session
 from app import Base
 from app.mod_auth.models import User
 import datetime
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
 
 
@@ -48,7 +48,8 @@ class Item(Base):
     created_at = Column(DateTime, default=datetime.datetime.utcnow())
     category_id = Column(Integer, ForeignKey('category.id'))
     creator_id = Column(Integer, ForeignKey('user.id'))
-    category = relationship(Category)
+    category = relationship(Category, backref=backref(
+        "items", cascade="all, delete-orphan"))
     user = relationship(User)
 
     @property
