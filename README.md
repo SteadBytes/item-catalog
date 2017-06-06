@@ -7,6 +7,7 @@ A web application that provides a list of items and their information within a v
 
 ### Requirements
 Using the Udacity Vagrant VM and the `virtualenv` provided in the repo will cover all requirements/dependencies. Including:
+* Virtualenc
 * Flask (0.12.1)
 * Flask-HTTPAuth (3.2.2)
 * Flask-Login (0.4.0)
@@ -21,8 +22,17 @@ Using the Udacity Vagrant VM and the `virtualenv` provided in the repo will cove
 
 ### Setup external APIs
 1. Set up a new Google project [here](https://console.developers.google.com/).
-3. Set up Oauth2 under the google API manager.
-4. Copy the `CLIENT_ID` and `CLIENT_SECRET` into `config.py`
+2. Set up Oauth2 under the google API manager.
+3. Copy the `CLIENT_ID` and `CLIENT_SECRET` into `config.py`
+
+### Setup virtualenv
+1. Ensure virtualenv is installed - [guide](https://virtualenv.pypa.io/en/stable/installation/)
+2. Add virtualenv folder for application:
+  `$ virtualenv env`
+3. Activate virtualenv
+  `$ source env/bin/activate`
+4. Import requirements
+  `$ env/bin/pip3 install -r requirements.txt`
 
 ### Run Item Catalog App
 1. Navigate to `udacity-fsnd-item-catalog/app`
