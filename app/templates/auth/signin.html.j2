@@ -1,1 +1,6 @@
-<a href="{{auth_url}}" class="btn btn-primary btn-block" style="padding: 15px 0;">Login with Google</a>
+{% extends "base.html.j2" %}
+{% block content %}
+  <a href="{{auth_url}}">
+    <img  id="gsignin" onmouseover="onMouseOver()" onMouseOut="onMouseOut(this)" onclick="onClick()" src="{{url_for('static', filename="images/gsignin.png")}}" alt="">
+  </a>
+{% endblock %}
