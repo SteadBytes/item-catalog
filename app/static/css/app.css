@@ -48,6 +48,39 @@
     padding-top: 0.5rem;
 }
 
+.gsignin {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    background: #4285f4;
+    max-width: 200px;
+    text-align: left;
+    font-size: 14px;
+    color: #ffffff;
+    padding: 0;
+    border-radius: 5px;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.gsignin:hover {
+    -webkit-box-shadow: 0 0 10px #4285f4;
+    box-shadow: 0 0 10px #4285f4;
+}
+
+.gsignin:active {
+    background-color: #3367d6;
+}
+
+.gsignin img {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+.gsignin span {
+    padding: 0 8px 0 8px;
+}
+
 
 /*Medium and up*/
 
@@ -61,8 +94,8 @@
     .form-create-item {
         max-width: none;
     }
-    .signin {
-        text-align: inherit;
+    .gsignin {
+        margin: inherit;
     }
 }
 

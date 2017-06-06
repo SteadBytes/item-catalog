@@ -4,9 +4,12 @@
   <div class="small-2 medium-4 columns category-list">
     {%include 'category_list.html.j2'%}
   </div>
-  <div class="columns align-self-middle text-center signin">
+  <div class="columns align-self-middle">
     <a href="{{auth_url}}">
-      <img  id="gsignin" onmouseover="onMouseOver()" onMouseOut="onMouseOut(this)" onclick="onClick()" src="{{url_for('static', filename="images/gsignin.png")}}" alt="">
+        <div class="gsignin">
+          <img id="gsignin" onmouseover="onMouseOver()" onMouseOut="onMouseOut(this)" onclick="onClick()" src="{{url_for('static', filename="images/gsignin.svg")}}" alt="">
+          <span>Sign in with Google</span>
+        </div>
     </a>
   </div>
 </div>
