@@ -7,7 +7,7 @@ A web application that provides a list of items and their information within a v
 
 ### Requirements
 Using the Udacity Vagrant VM and the `virtualenv` provided in the repo will cover all requirements/dependencies. Including:
-* Virtualenc
+* Virtualenv
 * Flask (0.12.1)
 * Flask-HTTPAuth (3.2.2)
 * Flask-Login (0.4.0)
