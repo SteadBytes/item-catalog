@@ -1,5 +1,6 @@
 # Item Catalog
 ![Part of the Udacity Front-End Web Development Nanodegree](https://img.shields.io/badge/Udacity-Front--End%20Web%20Developer%20Nanodegree-02b3e4.svg)
+-----------------------------------------------------
 A web application that provides a list of items and their information within a variety of categories and integrates third party user registration and authentication. Also includes a JSON API endpoint.
 
 ## Usage
